@@ -1,0 +1,8 @@
+$font-size-root: 1rem;
+
+html {
+  font-size: 14px;
+  @media (min-width: 996px) {
+    font-size: 16px;
+  }
+}

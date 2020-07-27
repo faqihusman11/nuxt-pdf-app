@@ -1,0 +1,11 @@
+.gradient {
+  &-secondary {
+    background-color: #90a4ae;
+    background-image: linear-gradient(to bottom right, #90a4ae, #546e7a);
+  }
+
+  &-primary {
+    background-color: #c62828;
+    background-image: linear-gradient(to bottom right, #c62828, #d32f2f);
+  }
+}

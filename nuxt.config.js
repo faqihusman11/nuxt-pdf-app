@@ -26,7 +26,7 @@ export default {
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       {
         href:
-          "https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css",
+          "https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css",
         rel: "stylesheet"
       }
     ],
@@ -40,7 +40,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: ["@/assets/main.scss"],
+  css: ["@/assets/main.css"],
   /*
    ** Plugins to load before mounting the App
    */
@@ -48,14 +48,12 @@ export default {
     "@/plugins/axios.js",
     "@/plugins/globalMixin.js",
     "@/plugins/mobile-device-detect.js",
-    "@/plugins/vuetify.js",
     "@/plugins/vue-signature.js"
     // "@/plugins/vue-drag-resize"
   ],
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ["@nuxtjs/vuetify"],
   /*
    ** Nuxt.js modules
    */
@@ -66,7 +64,8 @@ export default {
     // Doc: https://github.com/nuxt-community/dotenv-module
     "@nuxtjs/dotenv",
     "@nuxtjs/toast",
-    "@nuxtjs/proxy"
+    "@nuxtjs/proxy",
+    "nuxt-buefy"
   ],
   /*
    ** Axios module configuration
@@ -89,21 +88,7 @@ export default {
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
    */
-  vuetify: {
-    treeShake: true,
-    customVariables: ["~/assets/variables.scss"],
-    options: {
-      customProperties: true
-    },
-    defaultAssets: {
-      font: {
-        family: "Lato",
-        size: "16px"
-      },
-      icons: "mdi"
-    },
-    optionsPath: "./vuetify.options.js"
-  },
+
   /*
    ** Build configuration
    */

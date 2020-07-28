@@ -1,23 +1,7 @@
 <template>
   <div>
     <AppToolbar :is-dashboard="true" />
-    <v-container fluid class="my-4">
-      <p class="title grey--text">
-        <v-icon class="mr-2">mdi-file-pdf-box</v-icon>
-        <span class="font-weight-bold">List PDF File</span>
-      </p>
-      <v-data-table
-        :headers="headers"
-        :items="listPDF"
-        :items-per-page="10"
-        :sort-desc="listPDF"
-        item-key="id"
-      >
-        <template v-slot:item.src="{ item }">
-          <v-icon @click="onGoToPDF(item)">mdi-file-pdf</v-icon>
-        </template>
-      </v-data-table>
-    </v-container>
+    <div class="container is-fullhd"></div>
   </div>
 </template>
 
@@ -58,7 +42,6 @@ export default {
   },
   methods: {
     onGoToPDF(item) {
-      // this.pdfModal = this.pdfModal == false ? true : false;
       this.$router.push({
         name: "pdf",
         params: {

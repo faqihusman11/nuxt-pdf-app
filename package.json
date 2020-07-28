@@ -23,13 +23,15 @@
     "lodash": "^4.17.15",
     "mobile-device-detect": "^0.3.3",
     "moment": "^2.24.0",
+    "node-sass": "^4.14.1",
     "nuxt": "^2.0.0",
+    "nuxt-buefy": "^0.3.31",
+    "sass-loader": "^9.0.2",
     "vue-drag-resize": "^1.4.1",
     "vue-pdf": "^4.1.0",
     "vue-signature-pad": "^2.0.2"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "^1.0.0",
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-prettier": "^3.0.1",
     "prettier": "^1.16.4"

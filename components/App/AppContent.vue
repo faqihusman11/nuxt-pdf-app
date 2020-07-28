@@ -1,7 +1,7 @@
 <template>
-  <v-content style="padding-top: 64px !important;">
-    <v-container fluid class="px-3">
+  <section class="section">
+    <div class="container">
       <slot></slot>
-    </v-container>
-  </v-content>
+    </div>
+  </section>
 </template>

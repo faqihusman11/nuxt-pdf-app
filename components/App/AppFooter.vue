@@ -1,7 +1,7 @@
 <template>
-  <v-card outlined flat>
-    <v-footer color="grey lighten-3" class="py-2" inset app>
+  <footer class="footer">
+    <div class="content has-text-centered">
       <span class="caption">&copy; {{ $year() }} Copyright.</span>
-    </v-footer>
-  </v-card>
+    </div>
+  </footer>
 </template>

@@ -8,7 +8,7 @@
     >
       <vue-draggable-resizable
         v-for="(item, index) in listSignature"
-        :key="index"
+        :key="item.id"
         :active="item.isLocked"
         :draggable="item.isLocked"
         :resizable="item.isLocked"
@@ -18,6 +18,8 @@
         :h="item.height"
         :y="item.top"
         :x="item.left"
+        :max-width="zoom"
+        :max-height="zoom"
         :min-width="zoom"
         :min-height="zoom"
         @dragging="onDrag"
@@ -43,12 +45,12 @@
           class="fab"
           type="is-text"
           style="position:absolute;top:-10px;right:-50px"
-          @click="deleteItem(item, index)"
+          @click="deleteItem(index)"
           data-html2canvas-ignore="true"
         >
           <b-icon pack="mdi" icon="delete"> </b-icon>
         </b-button>
-        <img :src="item.img" />
+        <img :src="item.img" :width="zoom == 100 ? '100%' : zoom" />
       </vue-draggable-resizable>
       <pdf
         v-for="i in numPages"
@@ -159,6 +161,7 @@ export default {
     },
     onAddSignature() {
       this.listSignature.push({
+        id: Math.floor(10000 + Math.random() * 90000),
         width: this.zoom,
         height: this.zoom,
         top: window.scrollY == 0 ? 400 : window.scrollY,
@@ -172,7 +175,7 @@ export default {
         item.isLocked = item.isLocked == true ? false : true;
       }
     },
-    deleteItem(item, index) {
+    deleteItem(item) {
       this.listSignature.splice(item, 1);
     },
     onResize(top, left, width, height) {
@@ -187,17 +190,19 @@ export default {
     },
     onZoomIn() {
       this.zoom += 20;
-      // this.listSignature.width += 20;
-      // this.listSignature.height += 20;
-      // this.listSignature.top += 20;
-      // this.listSignature.left += 20;
+      // console.log("onZoomIn offsetWidth", window.pageXOffset);
+      // console.log(
+      //   "onZoomIn offsetHeight",
+      //   document.getElementById("pdf").offsetHeight
+      // );
     },
     onZoomOut() {
       this.zoom -= 20;
-      // this.listSignature.width -= 20;
-      // this.listSignature.height -= 20;
-      // this.listSignature.top -= 20;
-      // this.listSignature.left -= 20;
+      // console.log("onZoomOut offsetWidth", window.pageYOffset);
+      // console.log(
+      //   "onZoomOut offsetHeight",
+      //   document.getElementById("pdf").offsetHeight
+      // );
     },
     downloadPDF() {
       const divWidth = document.getElementById("pdf").offsetWidth;

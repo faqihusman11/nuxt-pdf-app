@@ -27,7 +27,7 @@
     "nuxt": "^2.0.0",
     "nuxt-buefy": "^0.3.31",
     "sass-loader": "^9.0.2",
-    "vue-drag-resize": "^1.4.1",
+    "vue-draggable-resizable": "^2.2.0",
     "vue-pdf": "^4.1.0",
     "vue-signature-pad": "^2.0.2"
   },

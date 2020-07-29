@@ -8060,10 +8060,10 @@ vue-client-only@^2.0.0:
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.0.0.tgz#ddad8d675ee02c761a14229f0e440e219de1da1c"
   integrity sha512-arhk1wtWAfLsJyxGMoEYhoBowM87/i6HLSG2LH/03Yog6i2d9JEN1peMP0Ceis+/n9DxdenGYZZTxbPPJyHciA==
 
-vue-drag-resize@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/vue-drag-resize/-/vue-drag-resize-1.4.1.tgz#bd2d2f99e356f97831a504c23d5adce17a9b6268"
-  integrity sha512-8ES66/5O00J2d5POuJq9kCdi/cpaycsvH6YwJH0+ksYKTyHWC8JSm8Wd0pRy50FnRawhczptebIxrbOd8r+6qw==
+vue-draggable-resizable@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/vue-draggable-resizable/-/vue-draggable-resizable-2.2.0.tgz#eb4581b6ddd6a20c5f54f99993c8646382523296"
+  integrity sha512-KjVyzg0OtLsyVhnwD/6NozJkLMD3li41QB/aJIJUr3VS75Gn32UPOWidLvhwsbkwNQcKajXW9QCV1aTrN6MY8w==
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.4"

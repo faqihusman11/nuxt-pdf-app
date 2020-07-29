@@ -48,8 +48,8 @@ export default {
     "@/plugins/axios.js",
     "@/plugins/globalMixin.js",
     "@/plugins/mobile-device-detect.js",
-    "@/plugins/vue-signature.js"
-    // "@/plugins/vue-drag-resize"
+    "@/plugins/vue-signature.js",
+    "@/plugins/vue-draggable-resizable.js"
   ],
   /*
    ** Nuxt.js dev-modules

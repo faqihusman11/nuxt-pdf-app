@@ -1,12 +1,8 @@
 <template>
   <section>
-    <div
-      class="container is-fullhd"
-      id="pdf"
-      ref="pdf"
-      :style="`width:${zoom}%;`"
-    >
+    <div class="container is-fullhd" id="pdf" ref="pdf">
       <vue-draggable-resizable
+        id="signature"
         v-for="(item, index) in listSignature"
         :key="item.id"
         :active="item.isLocked"
@@ -14,14 +10,14 @@
         :resizable="item.isLocked"
         :lock-aspect-ratio="item.isLocked"
         :parent="true"
-        :w="item.width"
-        :h="item.height"
-        :y="item.top"
-        :x="item.left"
-        :max-width="zoom"
-        :max-height="zoom"
-        :min-width="zoom"
-        :min-height="zoom"
+        :w="item.w"
+        :h="item.h"
+        :y="item.y"
+        :x="item.x"
+        :min-width="min"
+        :min-height="min"
+        :max-width="max"
+        :max-height="max"
         @dragging="onDrag"
         @resizing="onResize"
         :z="1"
@@ -31,7 +27,7 @@
           class="fab"
           type="is-text"
           style="position:absolute;top:-10px;left:-50px"
-          @click="onActived(item)"
+          @click="onActivated(item, index)"
           data-html2canvas-ignore="true"
         >
           <b-icon
@@ -45,12 +41,12 @@
           class="fab"
           type="is-text"
           style="position:absolute;top:-10px;right:-50px"
-          @click="deleteItem(index)"
+          @click="deleteItem(item, index)"
           data-html2canvas-ignore="true"
         >
           <b-icon pack="mdi" icon="delete"> </b-icon>
         </b-button>
-        <img :src="item.img" :width="zoom == 100 ? '100%' : zoom" />
+        <img id="img" :src="item.img" />
       </vue-draggable-resizable>
       <pdf
         v-for="i in numPages"
@@ -99,7 +95,11 @@
           </b-button>
         </b-navbar-item>
         <b-navbar-item>
-          <b-button class="fab" :disabled="zoom != 100" @click="downloadPDF">
+          <b-button
+            class="fab"
+            :disabled="zoom != 100 || listSignature.length < 1"
+            @click="downloadPDF"
+          >
             <b-icon pack="mdi" icon="download"> </b-icon>
           </b-button>
         </b-navbar-item>
@@ -119,19 +119,14 @@ export default {
   },
   data: () => ({
     zoom: 100,
+    min: 75,
+    max: 150,
+    isZoomed: false,
     signatureImg: signatureImg,
     numPages: undefined,
     currentPage: 1,
-    loadedRatio: 0,
-    listSignature: [
-      // {
-      //   width: 0,
-      //   height: 0,
-      //   top: 0,
-      //   left: 0,
-      //   isLocked: true
-      // }
-    ]
+    listSignature: [],
+    listCoordinate: []
   }),
   computed: {
     filePDF() {
@@ -162,47 +157,107 @@ export default {
     onAddSignature() {
       this.listSignature.push({
         id: Math.floor(10000 + Math.random() * 90000),
-        width: this.zoom,
-        height: this.zoom,
-        top: window.scrollY == 0 ? 400 : window.scrollY,
-        left: 450,
+        x: 425,
+        y: window.scrollY == 0 ? 475 : window.scrollY,
+        w: 100,
+        h: 100,
         img: this.signatureImg,
         isLocked: true
       });
     },
-    onActived(item) {
-      if (item) {
-        item.isLocked = item.isLocked == true ? false : true;
+    onActivated(item, index) {
+      if (item.isLocked == true) {
+        item.isLocked = false;
+        const div = document.getElementById("signature");
+        const rect = div.getBoundingClientRect();
+        const x = rect.left;
+        const y = rect.top;
+        const w = rect.width;
+        const h = rect.height;
+
+        this.listCoordinate.push({
+          id: item.id,
+          x: x,
+          y: y,
+          w: w,
+          h: h
+        });
+      } else {
+        item.isLocked = true;
+        this.listCoordinate.splice(index, 1);
       }
     },
-    deleteItem(item) {
-      this.listSignature.splice(item, 1);
+    deleteItem(item, index) {
+      this.listSignature.splice(index, 1);
+      if (item.isLocked == false) {
+        this.onActivated(item, index);
+      }
     },
-    onResize(top, left, width, height) {
-      this.listSignature.width = width;
-      this.listSignature.height = height;
-      this.listSignature.top = top;
-      this.listSignature.left = left;
+    onResize(x, y, w, h) {
+      // console.log("x resize", x);
+      // console.log("y resize", y);
+      // console.log("w resize", w);
+      // console.log("h resize", h);
     },
-    onDrag(top, left) {
-      this.listSignature.top = top;
-      this.listSignature.left = left;
+    onDrag(x, y) {
+      // console.log("x drag", x);
+      // console.log("y drag", y);
     },
     onZoomIn() {
+      const div = document.getElementById("pdf");
+      const clientWidth = div.clientWidth;
+      div.style.width = clientWidth + 150 + "px";
+
       this.zoom += 20;
-      // console.log("onZoomIn offsetWidth", window.pageXOffset);
-      // console.log(
-      //   "onZoomIn offsetHeight",
-      //   document.getElementById("pdf").offsetHeight
-      // );
+      this.min += 15;
+      this.max += 30;
+
+      if (this.listSignature.length > 0) {
+        const signature = document.getElementById("signature");
+        const img = document.getElementById("img");
+        const clientLeft = signature.clientLeft;
+        const clientTop = signature.clientTop;
+        const clientWidth = img.clientWidth;
+        const clientHeight = img.clientHeight;
+
+        if (this.zoom == 100) {
+          signature.style.left = clientLeft + 50 + "px";
+          signature.style.top = clientTop + 50 + "px";
+        } else if (this.zoom == 80) {
+          signature.style.left = clientLeft - 40 + "px";
+          signature.style.top = clientTop - 40 + "px";
+        }
+        img.style.width = clientWidth + 20 + "px";
+        img.style.height = clientHeight + 20 + "px";
+      }
     },
     onZoomOut() {
+      const div = document.getElementById("pdf");
+      const clientWidth = div.clientWidth;
+      div.style.width = clientWidth - 150 + "px";
+
       this.zoom -= 20;
-      // console.log("onZoomOut offsetWidth", window.pageYOffset);
-      // console.log(
-      //   "onZoomOut offsetHeight",
-      //   document.getElementById("pdf").offsetHeight
-      // );
+      this.min -= 15;
+      this.max -= 30;
+
+      if (this.listSignature.length > 0) {
+        const signature = document.getElementById("signature");
+        const img = document.getElementById("img");
+        const clientLeft = signature.clientLeft;
+        const clientTop = signature.clientTop;
+        const clientWidth = img.clientWidth;
+        const clientHeight = img.clientHeight;
+
+        if (this.zoom == 80) {
+          signature.style.left = clientLeft - 50 + "px";
+          signature.style.top = clientTop - 50 + "px";
+        } else if (this.zoom == 60) {
+          signature.style.left = clientLeft - 125 + "px";
+          signature.style.top = clientTop - 125 + "px";
+        }
+        img.style.width = clientWidth - 20 + "px";
+        img.style.height = clientHeight - 20 + "px";
+      }
     },
     downloadPDF() {
       const divWidth = document.getElementById("pdf").offsetWidth;
@@ -240,6 +295,7 @@ export default {
         }
         doc.save(`${pdfName}.pdf`);
       });
+      console.log("List Coordinate", this.listCoordinate);
     }
   }
 };

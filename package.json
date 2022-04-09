@@ -22,7 +22,7 @@
     "jspdf": "^1.5.3",
     "lodash": "^4.17.15",
     "mobile-device-detect": "^0.3.3",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "node-sass": "^4.14.1",
     "nuxt": "^2.0.0",
     "nuxt-buefy": "^0.3.31",
